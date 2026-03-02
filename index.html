@@ -1,337 +1,197 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Allianz FX Converter</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allianz FX Converter</title>
 
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d47a1"/>
-
-  <style>
-    :root{
-      --bg:#121417;
-      --card:#1a1f27;
-      --muted:#8fa1b3;
-      --text:#ffffff;
-      --accent:#0d47a1; /* Allianz син */
-      --accent2:#1565c0;
-      --field:#11151b;
-      --border:#2a3240;
-      --danger:#ff6b6b;
-      --ok:#7bd88f;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 50% -10%, rgba(13,71,161,.35), transparent 60%),
-                  var(--bg);
-      color:var(--text);
-    }
-    header{
-      position: sticky; top:0; z-index: 10;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      padding:14px 16px;
-      display:flex; align-items:center; gap:12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.25);
-    }
-    header img{height:34px; width:auto; border-radius:6px; background: rgba(255,255,255,.08); padding:6px}
-    header .title{font-weight:800; letter-spacing:.2px}
-    header .subtitle{color: rgba(255,255,255,.85); font-size:12px; margin-top:2px}
-    .wrap{max-width: 520px; margin: 18px auto; padding: 0 16px 24px}
-    .card{
-      background: rgba(26,31,39,.92);
-      border: 1px solid rgba(42,50,64,.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:16px;
-      backdrop-filter: blur(8px);
-    }
-    .row{display:flex; gap:12px}
-    .row > *{flex:1}
-    label{display:block; color: var(--muted); font-size:12px; margin: 10px 0 6px}
-    input, select{
-      width:100%;
-      background: var(--field);
-      border:1px solid rgba(42,50,64,.9);
-      color:var(--text);
-      padding:12px 12px;
-      border-radius:12px;
-      outline:none;
-      font-size:16px;
-    }
-    input:focus, select:focus{border-color: rgba(13,71,161,.9); box-shadow: 0 0 0 3px rgba(13,71,161,.25)}
-    .actions{display:flex; gap:10px; margin-top:14px}
-    button{
-      width:100%;
-      padding:12px 12px;
-      border:none;
-      border-radius:12px;
-      font-weight:800;
-      cursor:pointer;
-      color:white;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      box-shadow: 0 10px 18px rgba(13,71,161,.25);
-    }
-    button.secondary{
-      background: transparent;
-      border: 1px solid rgba(42,50,64,.9);
-      box-shadow: none;
-      color: var(--text);
-      font-weight:700;
-    }
-    button:active{transform: translateY(1px)}
-    .pillbar{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
-    .pill{
-      padding:8px 10px; border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(42,50,64,.9);
-      color: var(--muted);
-      font-size:12px;
-    }
-    .pill strong{color: var(--text)}
-    .result{
-      margin-top:16px;
-      padding:14px;
-      border-radius: 14px;
-      background: rgba(13,71,161,.12);
-      border: 1px solid rgba(13,71,161,.35);
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    .result .big{font-size:22px; font-weight:900}
-    .result .small{color: rgba(255,255,255,.78); font-size:12px}
-    .status{margin-top:10px; font-size:12px; color: var(--muted); display:flex; justify-content:space-between; gap:10px}
-    .status .ok{color: var(--ok)}
-    .status .bad{color: var(--danger)}
-    .footer{
-      text-align:center;
-      color: var(--muted);
-      font-size:12px;
-      margin-top:14px;
-    }
-    .swapbtn{
-      width:56px; flex:0 0 56px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:18px;
-    }
-  </style>
+<style>
+:root{
+  --bg:#121417;
+  --card:#1a1f27;
+  --muted:#8fa1b3;
+  --text:#ffffff;
+  --accent:#0d47a1;
+  --accent2:#1565c0;
+  --field:#11151b;
+  --border:#2a3240;
+  --danger:#ff6b6b;
+  --ok:#7bd88f;
+}
+body{
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+header img{height:34px}
+.wrap{max-width:520px;margin:20px auto;padding:0 16px}
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:18px;
+}
+label{display:block;color:var(--muted);font-size:12px;margin-top:10px}
+input,select{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--field);
+  color:white;
+}
+button{
+  width:100%;
+  padding:12px;
+  margin-top:14px;
+  border-radius:10px;
+  border:none;
+  font-weight:bold;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:white;
+  cursor:pointer;
+}
+.result{
+  margin-top:16px;
+  font-size:22px;
+  font-weight:bold;
+}
+.status{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--muted);
+}
+.ok{color:var(--ok)}
+.bad{color:var(--danger)}
+</style>
 </head>
 <body>
-  <header>
-    <img src="allianz_logo.png" alt="Allianz">
-    <div>
-      <div class="title">Allianz FX Converter</div>
-      <div class="subtitle">Live курсове + офлайн резервен режим</div>
-    </div>
-  </header>
 
-  <div class="wrap">
-    <div class="card">
-      <div class="row">
-        <div>
-          <label>Сума</label>
-          <input id="amount" inputmode="decimal" placeholder="Напр. 187.90" />
-        </div>
-      </div>
-
-      <div class="row" style="align-items:end; margin-top:6px">
-        <div>
-          <label>От</label>
-          <select id="from"></select>
-        </div>
-
-        <button class="secondary swapbtn" id="swap" title="Размени">↔</button>
-
-        <div>
-          <label>Към</label>
-          <select id="to"></select>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button id="convert">Конвертирай</button>
-        <button class="secondary" id="refresh">Обнови курсове</button>
-      </div>
-
-      <div class="pillbar">
-        <div class="pill">Auto refresh: <strong id="autorefresh">60s</strong></div>
-        <div class="pill">База: <strong id="base">EUR</strong></div>
-      </div>
-
-      <div class="result">
-        <div>
-          <div class="big" id="result">–</div>
-          <div class="small" id="rateLine">–</div>
-        </div>
-        <div style="text-align:right">
-          <div class="small">Last updated</div>
-          <div class="small" id="updated">–</div>
-        </div>
-      </div>
-
-      <div class="status">
-        <div id="status">Зареждане…</div>
-        <div id="mode"></div>
-      </div>
-
-      <div class="footer">
-        Източник: Frankfurter (ECB). Ако няма връзка, използва фиксирани курсове.
-      </div>
-    </div>
+<header>
+  <img src="allianz_logo.png">
+  <div>
+    <div><strong>Allianz FX Converter</strong></div>
+    <div style="font-size:12px;">Live курсове + fallback</div>
   </div>
+</header>
 
-  <script>
-    // ---- Fallback курсове (база EUR) ----
-    const FALLBACK = {
-      "EUR": 1,
-      "USD": 1.08,
-      "GBP": 0.8734,
-      "BGN": 1.95583,
-      "CHF": 0.96,
-      "RON": 4.97,
-      "TRY": 33.0
-    };
+<div class="wrap">
+  <div class="card">
 
-    const AUTO_REFRESH_MS = 60000;
+    <label>Сума</label>
+    <input id="amount" placeholder="Напр. 187.90">
 
-    let rates = {...FALLBACK};
-    let lastUpdated = null;
-    let liveMode = false;
+    <label>От</label>
+    <select id="from"></select>
 
-    const elAmount = document.getElementById('amount');
-    const elFrom = document.getElementById('from');
-    const elTo = document.getElementById('to');
-    const elResult = document.getElementById('result');
-    const elRateLine = document.getElementById('rateLine');
-    const elUpdated = document.getElementById('updated');
-    const elStatus = document.getElementById('status');
-    const elMode = document.getElementById('mode');
+    <label>Към</label>
+    <select id="to"></select>
 
-    document.getElementById('autorefresh').innerText = (AUTO_REFRESH_MS/1000) + "s";
-    document.getElementById('base').innerText = "EUR";
+    <button onclick="convert()">Конвертирай</button>
 
-    function fmtTime(d){
-      if(!d) return "–";
-      const pad = n => String(n).padStart(2,'0');
-      return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-    }
+    <div class="result" id="result">–</div>
 
-    function populateDropdowns() {
-      const codes = Object.keys(rates).sort();
-      elFrom.innerHTML = "";
-      elTo.innerHTML = "";
-      for (const c of codes) {
-        const o1 = document.createElement('option'); o1.value = c; o1.textContent = c;
-        const o2 = document.createElement('option'); o2.value = c; o2.textContent = c;
-        elFrom.appendChild(o1); elTo.appendChild(o2);
-      }
-      // Defaults
-      if(!codes.includes("EUR")) { rates["EUR"] = 1; }
-      elFrom.value = "GBP";
-      elTo.value = "EUR";
-    }
+    <div class="status">
+      <div id="statusText">Зареждане...</div>
+      <div>Auto refresh: <span id="countdown">120</span>s</div>
+      <div id="updated"></div>
+    </div>
 
-    function setStatus() {
-      if (liveMode) {
-        elStatus.innerHTML = `<span class="ok">Live курсове активни</span>`;
-        elMode.textContent = "LIVE";
-        elMode.className = "ok";
-      } else {
-        elStatus.innerHTML = `<span class="bad">Офлайн режим (fallback курсове)</span>`;
-        elMode.textContent = "FALLBACK";
-        elMode.className = "bad";
-      }
-      elUpdated.textContent = fmtTime(lastUpdated);
-    }
+  </div>
+</div>
 
-    async function loadRates() {
-      // Frankfurter: base=EUR е по подразбиране, но го пишем изрично
-      try {
-        const res = await fetch("https://api.frankfurter.app/latest?from=EUR", { cache: "no-store" });
-        if(!res.ok) throw new Error("HTTP " + res.status);
-        const data = await res.json();
+<script>
+const AUTO_REFRESH_SECONDS = 120;
 
-        // data.rates няма EUR, добавяме го
-        rates = { ...data.rates, "EUR": 1 };
+// fallback rates (EUR base)
+const FALLBACK = {
+  EUR:1,
+  USD:1.08,
+  GBP:0.8734,
+  BGN:1.95583,
+  CHF:0.96,
+  RON:4.97
+};
 
-        // подсигуряваме BGN (ако някога липсва)
-        for (const k of Object.keys(FALLBACK)) {
-          if (rates[k] === undefined) rates[k] = FALLBACK[k];
-        }
+let rates = {...FALLBACK};
+let countdown = AUTO_REFRESH_SECONDS;
+let liveMode = false;
 
-        lastUpdated = new Date();
-        liveMode = true;
+const elFrom = document.getElementById("from");
+const elTo = document.getElementById("to");
+const elResult = document.getElementById("result");
+const elStatus = document.getElementById("statusText");
+const elCountdown = document.getElementById("countdown");
+const elUpdated = document.getElementById("updated");
 
-        populateDropdowns();
-        setStatus();
-      } catch (e) {
-        // fallback
-        rates = {...FALLBACK};
-        lastUpdated = new Date();
-        liveMode = false;
+function populate() {
+  const list = Object.keys(rates).sort();
+  elFrom.innerHTML = "";
+  elTo.innerHTML = "";
+  list.forEach(c=>{
+    elFrom.innerHTML += `<option>${c}</option>`;
+    elTo.innerHTML += `<option>${c}</option>`;
+  });
+  elFrom.value = "GBP";
+  elTo.value = "EUR";
+}
 
-        populateDropdowns();
-        setStatus();
-      }
-    }
+async function loadRates() {
+  try {
+    const res = await fetch("https://api.frankfurter.app/latest?from=EUR",{cache:"no-store"});
+    const data = await res.json();
+    rates = {...data.rates, EUR:1};
+    liveMode = true;
+    elStatus.innerHTML = '<span class="ok">Live курсове активни</span>';
+  } catch {
+    rates = {...FALLBACK};
+    liveMode = false;
+    elStatus.innerHTML = '<span class="bad">Fallback режим</span>';
+  }
+  populate();
+  elUpdated.innerText = "Last update: " + new Date().toLocaleTimeString();
+}
 
-    function convert() {
-      const amount = Number(String(elAmount.value).replace(",", "."));
-      const from = elFrom.value;
-      const to = elTo.value;
+function convert(){
+  const amount = parseFloat(document.getElementById("amount").value);
+  if(!amount){ elResult.innerText="Невалидна сума"; return; }
 
-      if (!Number.isFinite(amount) || amount <= 0) {
-        elResult.textContent = "Невалидна сума";
-        elRateLine.textContent = "–";
-        return;
-      }
+  const from = elFrom.value;
+  const to = elTo.value;
 
-      if (!rates[from] || !rates[to]) {
-        elResult.textContent = "Липсва валута";
-        elRateLine.textContent = "–";
-        return;
-      }
+  const eur = amount / rates[from];
+  const out = eur * rates[to];
 
-      // Всичко е спрямо EUR:
-      const eur = amount / rates[from];
-      const out = eur * rates[to];
+  elResult.innerText = out.toFixed(2)+" "+to;
+}
 
-      elResult.textContent = out.toFixed(2) + " " + to;
+function startCountdown(){
+  setInterval(async ()=>{
+    countdown--;
+    elCountdown.innerText = countdown;
 
-      const oneUnit = (1 / rates[from]) * rates[to]; // 1 FROM -> TO
-      elRateLine.textContent = `1 ${from} ≈ ${oneUnit.toFixed(6)} ${to}`;
-    }
-
-    document.getElementById('convert').addEventListener('click', convert);
-    document.getElementById('refresh').addEventListener('click', async () => {
-      elStatus.textContent = "Обновяване…";
+    if(countdown<=0){
       await loadRates();
       convert();
-    });
-
-    document.getElementById('swap').addEventListener('click', () => {
-      const a = elFrom.value;
-      elFrom.value = elTo.value;
-      elTo.value = a;
-      convert();
-    });
-
-    // PWA: service worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(()=>{});
-      });
+      countdown = AUTO_REFRESH_SECONDS;
     }
+  },1000);
+}
 
-    // Init
-    (async () => {
-      await loadRates();
-      elAmount.value = "187.90";
-      convert();
-      setInterval(async () => { await loadRates(); convert(); }, AUTO_REFRESH_MS);
-    })();
-  </script>
+// INIT
+(async ()=>{
+  await loadRates();
+  startCountdown();
+})();
+</script>
+
 </body>
 </html>
