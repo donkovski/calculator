@@ -3,96 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Allianz FX Converter</title>
+<title>Allianz Валутен Калкулатор</title>
 
 <style>
-:root{
-  --bg:#121417;
-  --card:#1a1f27;
-  --muted:#8fa1b3;
-  --text:#ffffff;
-  --accent:#0d47a1;
-  --accent2:#1565c0;
-  --field:#11151b;
-  --border:#2a3240;
-  --danger:#ff6b6b;
-  --ok:#7bd88f;
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #1e1e1e;
+    color: white;
 }
-body{
-  margin:0;
-  font-family:Segoe UI, sans-serif;
-  background:var(--bg);
-  color:var(--text);
+
+.header {
+    background: #0d47a1;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
 }
-header{
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:12px;
+
+.container {
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
 }
-header img{height:34px}
-.wrap{max-width:520px;margin:20px auto;padding:0 16px}
-.card{
-  background:var(--card);
-  border-radius:16px;
-  padding:18px;
+
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
 }
-label{display:block;color:var(--muted);font-size:12px;margin-top:10px}
-input,select{
-  width:100%;
-  padding:12px;
-  margin-top:6px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:var(--field);
-  color:white;
+
+input, select {
+    background: #2a2a2a;
+    color: white;
 }
-button{
-  width:100%;
-  padding:12px;
-  margin-top:14px;
-  border-radius:10px;
-  border:none;
-  font-weight:bold;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  color:white;
-  cursor:pointer;
+
+button {
+    background: #0d47a1;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
-.result{
-  margin-top:16px;
-  font-size:22px;
-  font-weight:bold;
+
+button:hover {
+    background: #1565c0;
 }
-.status{
-  margin-top:8px;
-  font-size:12px;
-  color:var(--muted);
+
+.result {
+    margin-top: 20px;
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;
 }
-.ok{color:var(--ok)}
-.bad{color:var(--danger)}
+
+.status {
+    margin-top: 10px;
+    font-size: 12px;
+    text-align: center;
+    color: #aaaaaa;
+}
+.ok { color: #7bd88f; }
+.bad { color: #ff6b6b; }
 </style>
 </head>
+
 <body>
 
-<header>
-  <img src="allianz_logo.png">
-  <div>
-    <div><strong>Allianz FX Converter</strong></div>
-    <div style="font-size:12px;">Live курсове + fallback</div>
-  </div>
-</header>
+<div class="header">
+    Allianz Валутен Калкулатор
+</div>
 
-<div class="wrap">
-  <div class="card">
+<div class="container">
+    <input type="number" id="amount" placeholder="Въведи сума">
 
-    <label>Сума</label>
-    <input id="amount" placeholder="Напр. 187.90">
-
-    <label>От</label>
     <select id="from"></select>
-
-    <label>Към</label>
     <select id="to"></select>
 
     <button onclick="convert()">Конвертирай</button>
@@ -100,30 +87,27 @@ button{
     <div class="result" id="result">–</div>
 
     <div class="status">
-      <div id="statusText">Зареждане...</div>
-      <div>Auto refresh: <span id="countdown">120</span>s</div>
-      <div id="updated"></div>
+        <div id="statusText">Зареждане...</div>
+        <div>Auto refresh: <span id="countdown">120</span>s</div>
+        <div id="updated"></div>
     </div>
-
-  </div>
 </div>
 
 <script>
 const AUTO_REFRESH_SECONDS = 120;
 
-// fallback rates (EUR base)
+// fallback (EUR base)
 const FALLBACK = {
-  EUR:1,
-  USD:1.08,
-  GBP:0.8734,
-  BGN:1.95583,
-  CHF:0.96,
-  RON:4.97
+    EUR:1,
+    USD:1.08,
+    GBP:0.8734,
+    BGN:1.95583,
+    CHF:0.96,
+    RON:4.97
 };
 
 let rates = {...FALLBACK};
 let countdown = AUTO_REFRESH_SECONDS;
-let liveMode = false;
 
 const elFrom = document.getElementById("from");
 const elTo = document.getElementById("to");
@@ -133,63 +117,62 @@ const elCountdown = document.getElementById("countdown");
 const elUpdated = document.getElementById("updated");
 
 function populate() {
-  const list = Object.keys(rates).sort();
-  elFrom.innerHTML = "";
-  elTo.innerHTML = "";
-  list.forEach(c=>{
-    elFrom.innerHTML += `<option>${c}</option>`;
-    elTo.innerHTML += `<option>${c}</option>`;
-  });
-  elFrom.value = "GBP";
-  elTo.value = "EUR";
+    const list = Object.keys(rates).sort();
+    elFrom.innerHTML = "";
+    elTo.innerHTML = "";
+    list.forEach(c=>{
+        elFrom.innerHTML += `<option>${c}</option>`;
+        elTo.innerHTML += `<option>${c}</option>`;
+    });
+    elFrom.value = "GBP";
+    elTo.value = "EUR";
 }
 
 async function loadRates() {
-  try {
-    const res = await fetch("https://api.frankfurter.app/latest?from=EUR",{cache:"no-store"});
-    const data = await res.json();
-    rates = {...data.rates, EUR:1};
-    liveMode = true;
-    elStatus.innerHTML = '<span class="ok">Live курсове активни</span>';
-  } catch {
-    rates = {...FALLBACK};
-    liveMode = false;
-    elStatus.innerHTML = '<span class="bad">Fallback режим</span>';
-  }
-  populate();
-  elUpdated.innerText = "Last update: " + new Date().toLocaleTimeString();
+    try {
+        const res = await fetch("https://api.frankfurter.app/latest?from=EUR",{cache:"no-store"});
+        const data = await res.json();
+        rates = {...data.rates, EUR:1};
+        elStatus.innerHTML = '<span class="ok">Live курсове активни</span>';
+    } catch {
+        rates = {...FALLBACK};
+        elStatus.innerHTML = '<span class="bad">Fallback режим</span>';
+    }
+
+    populate();
+    elUpdated.innerText = "Last update: " + new Date().toLocaleTimeString();
 }
 
 function convert(){
-  const amount = parseFloat(document.getElementById("amount").value);
-  if(!amount){ elResult.innerText="Невалидна сума"; return; }
+    const amount = parseFloat(document.getElementById("amount").value);
+    if(!amount){ elResult.innerText="Невалидна сума"; return; }
 
-  const from = elFrom.value;
-  const to = elTo.value;
+    const from = elFrom.value;
+    const to = elTo.value;
 
-  const eur = amount / rates[from];
-  const out = eur * rates[to];
+    const eur = amount / rates[from];
+    const out = eur * rates[to];
 
-  elResult.innerText = out.toFixed(2)+" "+to;
+    elResult.innerText = out.toFixed(2)+" "+to;
 }
 
 function startCountdown(){
-  setInterval(async ()=>{
-    countdown--;
-    elCountdown.innerText = countdown;
+    setInterval(async ()=>{
+        countdown--;
+        elCountdown.innerText = countdown;
 
-    if(countdown<=0){
-      await loadRates();
-      convert();
-      countdown = AUTO_REFRESH_SECONDS;
-    }
-  },1000);
+        if(countdown<=0){
+            await loadRates();
+            convert();
+            countdown = AUTO_REFRESH_SECONDS;
+        }
+    },1000);
 }
 
 // INIT
 (async ()=>{
-  await loadRates();
-  startCountdown();
+    await loadRates();
+    startCountdown();
 })();
 </script>
 
