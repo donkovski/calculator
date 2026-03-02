@@ -1,12 +1,14 @@
-const CACHE_NAME="allianz-fx-v3";
-const ASSETS=["./","./index.html","./manifest.json","./allianz_logo.png"];
+const CACHE_NAME = "allianz-fx-v2";
+const ASSETS = ["./","./index.html","./manifest.json"];
 
-self.addEventListener("install",e=>{
-  e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)));
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+  );
 });
 
-self.addEventListener("fetch",e=>{
-  e.respondWith(
-    caches.match(e.request).then(r=>r||fetch(e.request))
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then(cached => cached || fetch(event.request))
   );
 });
